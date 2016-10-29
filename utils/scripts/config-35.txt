@@ -1,0 +1,33 @@
+# Please note that this is only a sample, we recommend you to change it to fit
+# your needs.
+# You should override this file using a post-build script.
+# See http://buildroot.org/manual.html#rootfs-custom
+# and http://elinux.org/RPiconfig for a description of config.txt syntax
+
+kernel=zImage
+
+# To use an external initramfs file
+#initramfs rootfs.cpio.gz
+
+# Disable overscan assuming the display supports displaying the full resolution
+# If the text shown on the screen disappears off the edge, comment this out
+disable_overscan=1
+
+# How much memory in MB to assign to the GPU on Pi models having
+# 256, 512 or 1024 MB total memory
+gpu_mem_256=100
+gpu_mem_512=100
+gpu_mem_1024=100
+
+#tft screen
+#Waveshare 3.5 TFT Screen
+#same resolution for hdmi and tft
+hdmi_force_hotplug=1
+hdmi_cvt=480 320 60 1 0 0 0
+hdmi_group=2
+hdmi_mode=1
+hdmi_mode=87
+
+dtparam=spi=on
+dtoverlay=ads7846,penirq=25,penirq_pull=2,xohms=150,swapxy=1,xmin=300,ymin=700,xmax=3800,ymax=3400,pmax=255
+dtoverlay=waveshare35a:rotate=270,speed=27000000
