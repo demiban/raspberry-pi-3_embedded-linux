@@ -12,6 +12,9 @@ else
 	wget http://buildroot.net/downloads/buildroot-$BUILDROOT_VER.tar.bz2
 	tar xjvf buildroot-$BUILDROOT_VER.tar.bz2
 	rm buildroot-$BUILDROOT_VER.tar.bz2
+	
+	echo "Installing buildroot dependencies..."
+	sudo apt install libncurses5-dev
 fi
 
 
