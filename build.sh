@@ -2,10 +2,24 @@
 
 cd buildroot-$BUILDROOT_VER
 
-echo 
-make menuconfig
+case $1 in
+	clean)
+		make clean
+		;;
+	menu)
+		make menuconfig
+		;;
+	make)
+		echo "Starting to build rpi image..."
+		make > build.log
+		;;
+	*) 
+		make menuconfig
 
-echo "Starting build, this may take a while..."
-make > build.log
+		echo "Starting to build rpi image..."
+		make > build.log
+		;;
+esac
 
 cd ..
+
