@@ -1,5 +1,5 @@
 # rpi3-elinux-dev
-This project provides a basic Buildroot configuration and scripts to create an Emebdded Linux Image for a Raspberry PI 3 for development and testing with QEMU and board.
+This project provides Buildroot configuration and scripts to create a custom Embedded Linux Image for a Raspberry PI 3.
 
 ## The project still under development!!!
 
