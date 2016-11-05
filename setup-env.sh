@@ -1,19 +1,25 @@
 #!/bin/sh
 
+# This scripts downloads and compiles the required tools to setup the
+# development environment for embedded linix with Raspberry pi 3
 
 export BUILDROOT_VER=2016.08.1
-export QEMU_VER=2.7.0
 
-if [ -d "buildroot-$BUILDROOT_VER" ] 
+if hash git 2>/dev/null; then
+	echo "git: OK."
+else
+	sudo apt install git
+fi
+ 
+if [ -d "buildroot" ] 
 then
-	echo "buildroot-$BUILDROOT_VER: OK."
+	echo "buildroot: OK."
 else
 	echo "Downloading Buildroot..."
 	wget http://buildroot.net/downloads/buildroot-$BUILDROOT_VER.tar.bz2
 	tar xjvf buildroot-$BUILDROOT_VER.tar.bz2
+	mv buildroot-$BUILDROOT_VER buildroot
 	rm buildroot-$BUILDROOT_VER.tar.bz2
-	
-	echo "Installing buildroot dependencies..."
 	sudo apt install libncurses5-dev
 fi
 
@@ -26,14 +32,12 @@ else
 	git clone https://github.com/dhruvvyas90/qemu-rpi-kernel.git
 fi
 
-if [ -d "qemu-$QEMU_VER" ] 
+if [ -d "qemu" ] 
 then	
-	echo "qemu-$QEMU_VER: OK."
+	echo "qemu: OK."
 else
-	echo "Downloading qemu-$QEMU_VER..."
-	wget http://wiki.qemu-project.org/download/qemu-2.7.0.tar.bz2
-	tar xjvf qemu-$QEMU_VER.tar.bz2
-	rm qemu-$QEMU_VER.tar.bz2
+	echo "Downloading qemu..."
+	git clone https://github.com/qemu/qemu.git
 	
  	echo "Installing qemu dependencies..."
 	sudo apt-get install git libglib2.0-dev libfdt-dev libpixman-1-dev zlib1g-dev	
@@ -44,17 +48,17 @@ then
 	echo "qemu-system-arm: OK."
 else 
 	echo "Building qemu-system-arm..."
-	if [ ! -d "qemu-$QEMU_VER/build" ]
+	if [ ! -d "qemu/build" ]
 	then
-		mkdir qemu-$QEMU_VER/build
+		mkdir qemu/build
 	fi
 	
-	cd qemu-$QEMU_VER/build
+	cd qemu/build
 	../configure --target-list=arm-softmmu --enable-debug
 	make -j2
 
 	cd ../..
-	ln -s qemu-$QEMU_VER/build/arm-softmmu/qemu-system-arm qemu-system-arm
+	ln -s qemu/build/arm-softmmu/qemu-system-arm qemu-system-arm
 fi
 
 if [ -L "qemu-system-aarch64" ]
@@ -62,22 +66,22 @@ then
 	echo "qemu-system-aarch64: OK."
 else 
 	echo "Building qemu-system-aarch64..."
-	if [ ! -d "qemu-$QEMU_VER/build" ]
+	if [ ! -d "qemu/build" ]
 	then
-		mkdir qemu-$QEMU_VER/build
+		mkdir qemu/build
 	fi
 	
-	cd qemu-$QEMU_VER/build
+	cd qemu/build
 	../configure --target-list=aarch64-softmmu --enable-debug
 	make -j2
 
 	cd ../..
-	ln -s qemu-$QEMU_VER/build/aarch64-softmmu/qemu-system-aarch64 qemu-system-aarch64
+	ln -s qemu/build/aarch64-softmmu/qemu-system-aarch64 qemu-system-aarch64
 fi
 
 echo "Configuring buildroot for Raspberry PI 3 image..."
 
-cd buildroot-$BUILDROOT_VER
+cd buildroot
 cp ../config/rpi3_config .config
 
 cd ..
