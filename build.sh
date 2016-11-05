@@ -1,6 +1,6 @@
 #!/bin/sh
 
-cd buildroot-$BUILDROOT_VER
+cd buildroot
 
 case $1 in
 	clean)
