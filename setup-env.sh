@@ -10,6 +10,12 @@ if hash git 2>/dev/null; then
 else
 	sudo apt install git
 fi
+
+if hash kpartx 2>/dev/null; then
+	echo "kpartx: OK."
+else
+	sudo apt install kpartx
+fi
  
 if [ -d "buildroot" ] 
 then
@@ -23,67 +29,88 @@ else
 	sudo apt install libncurses5-dev
 fi
 
-
-if [ -d "qemu-rpi-kernel" ] 
+if [ -d "utils/qemu-rpi-kernel" ] 
 then
 	echo "qemu-rpi-kernel: OK."
 else
 	echo "Downloading qemu-rpi-kernel..."
+	cd utils
 	git clone https://github.com/dhruvvyas90/qemu-rpi-kernel.git
+	cd ..
 fi
 
-if [ -d "qemu" ] 
+if [ -d "utils/waveshare-dtoverlays" ] 
+then
+	echo "waveshare-dtoverlays: OK."
+else
+	echo "Downloading waveshare-dtoverlays..."
+	cd utils
+	git clone https://github.com/swkim01/waveshare-dtoverlays.git
+	cd ..
+fi
+
+if [ -d "utils/qemu" ] 
 then	
 	echo "qemu: OK."
 else
 	echo "Downloading qemu..."
+	cd utils
 	git clone https://github.com/qemu/qemu.git
-	
+	cd ..
  	echo "Installing qemu dependencies..."
-	sudo apt-get install git libglib2.0-dev libfdt-dev libpixman-1-dev zlib1g-dev	
+	sudo apt-get install libglib2.0-dev libfdt-dev libpixman-1-dev zlib1g-dev	
 fi
 
-if [ -L "qemu-system-arm" ]
+if [ -L "utils/qemu-system-arm" ]
 then
 	echo "qemu-system-arm: OK."
 else 
 	echo "Building qemu-system-arm..."
-	if [ ! -d "qemu/build" ]
+	if [ ! -d "utils/qemu/build" ]
 	then
-		mkdir qemu/build
+		mkdir utils/qemu/build
 	fi
 	
-	cd qemu/build
+	cd utils/qemu/build
 	../configure --target-list=arm-softmmu --enable-debug
 	make -j2
 
 	cd ../..
 	ln -s qemu/build/arm-softmmu/qemu-system-arm qemu-system-arm
+	cd ..
 fi
 
-if [ -L "qemu-system-aarch64" ]
+if [ -L "utils/qemu-system-aarch64" ]
 then
 	echo "qemu-system-aarch64: OK."
 else 
 	echo "Building qemu-system-aarch64..."
-	if [ ! -d "qemu/build" ]
+	if [ ! -d "utils/qemu/build" ]
 	then
-		mkdir qemu/build
+		mkdir utils/qemu/build
 	fi
 	
-	cd qemu/build
+	cd utils/qemu/build
 	../configure --target-list=aarch64-softmmu --enable-debug
 	make -j2
 
 	cd ../..
 	ln -s qemu/build/aarch64-softmmu/qemu-system-aarch64 qemu-system-aarch64
+	cd ..
+fi
+
+if [ -d "utils/rpi-fbcp" ] 
+then	
+	echo "rpi-fbcp: OK."
+else
+	echo "Downloading rpi-fbcp..."
+	cd utils
+	git clone https://github.com/ian57/rpi-fbcp.git
+	cd ..
 fi
 
 echo "Configuring buildroot for Raspberry PI 3 image..."
 
-cd buildroot
-cp ../config/rpi3_config .config
-
-cd ..
+cp config/rpi3_config buildroot/.config
 
 echo "Done!"
