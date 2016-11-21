@@ -29,16 +29,6 @@ else
 	sudo apt install libncurses5-dev
 fi
 
-if [ -d "utils/qemu-rpi-kernel" ] 
-then
-	echo "qemu-rpi-kernel: OK."
-else
-	echo "Downloading qemu-rpi-kernel..."
-	cd utils
-	git clone https://github.com/dhruvvyas90/qemu-rpi-kernel.git
-	cd ..
-fi
-
 if [ -d "utils/waveshare-dtoverlays" ] 
 then
 	echo "waveshare-dtoverlays: OK."
