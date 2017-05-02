@@ -39,6 +39,16 @@ else
 	cd ..
 fi
 
+if [ -d "utils/wlan-firmware" ] 
+then
+	echo "wlan-firmware: OK."
+else
+	echo "Downloading wlan-firmware..."
+	cd utils
+	git clone https://github.com/OpenELEC/wlan-firmware.git
+	cd ..
+fi
+
 if [ -d "utils/qemu" ] 
 then	
 	echo "qemu: OK."
