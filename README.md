@@ -47,7 +47,7 @@ Important: Do not use /dev/mmcblk0p1, it won't work.
 
 The following message should appear:
 
-	"Welcome to Emebdded linux on Raspberry Pi 3!"
+	"Welcome to Embedded linux on Raspberry Pi 3!"
 	
 2. Login to the raspberry:
 
