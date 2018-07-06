@@ -1,7 +1,7 @@
-# rpi3-elinux-dev
-This project provides Buildroot configuration and scripts to create a custom Embedded Linux Image for a Raspberry PI 3 with a LCD screen.
+# raspberry-pi-3_embedded-linux
+This project provides Buildroot configuration and scripts to generate a custom Embedded Linux Image for a Raspberry PI 3.
 
-Open a terminal in the rpi3-elinux-dev directory and follow these steps to build a basic image for the Raspberry PI 3.
+Open a terminal in the raspberry-pi-3_embedded-linux directory and follow these steps to build a basic image for the Raspberry PI 3.
 
 # Description
 
